@@ -10,7 +10,7 @@ with 477 bytes.
 
 ##The API
 
-how use ajaxPromise(method, URL, data);
+how use ajaxPromise({method, URL, data});
 
 you can use GET, PUT, POST or DELETE,
 but for GET mybe dont need add data param.
@@ -23,7 +23,9 @@ but for GET mybe dont need add data param.
   var method = "GET";
   var ajax = ajaxPromise;
 
-  ajax(method, url).then(success, fail);
+  ajax({method, url})
+    .then(success)
+    .catch(fail);
 
   function success(data){
     console.log(data);
@@ -39,5 +41,5 @@ but for GET mybe dont need add data param.
 +  run teste with karma start
 
 ##how build
-+ npm run build-prod
++ npm run build
 
