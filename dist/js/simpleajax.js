@@ -4,10 +4,17 @@ window.ajaxPromise = function () {
 
 	var req = new XMLHttpRequest();
 	var result = function result(req) {
-		return {
-			data: JSON.parse(req.response),
-			status: req.status
-		};
+
+		if (req.response) {
+			return {
+				data: JSON.parse(req.response),
+				status: req.status
+			};
+		} else {
+			return {
+				status: req.status
+			};
+		}
 	};
 
 	return function ajaxparams(_ref) {
