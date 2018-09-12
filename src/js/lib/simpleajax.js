@@ -1,10 +1,20 @@
 window.ajaxPromise = (function(){
 
 	const req = new XMLHttpRequest();
-	const result = req => ({
-		data: JSON.parse(req.response),
-		status: req.status
-	});
+	const result = req => {
+
+        if(req.response){
+            return {
+                data: JSON.parse(req.response),
+                status: req.status
+            }
+        }else{
+            return {
+                status: req.status
+            }
+        }
+    
+    };
 
 	return function ajaxparams({method = 'GET', url, data = null, header = {}}) {
 
