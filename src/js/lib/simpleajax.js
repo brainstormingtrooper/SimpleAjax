@@ -14,7 +14,7 @@ window.ajaxPromise = (function(){
 		}
 	};
 
-	return function ajaxparams({method = 'GET', url, data = null, contentType = 'application/json', header = {}}) {
+	return function ajaxparams({method = 'GET', url, data = null, contentType = 'application/json', header = {}, timeout = null}) {
 
 		if (!url) {
 			return Promise.reject('url is required!');
@@ -30,9 +30,21 @@ window.ajaxPromise = (function(){
 		req.send(JSON.stringify(data));
 
 		return new Promise((resolve, reject) =>  {
+			
+			let timerAbort;
+		      if (timeout) {
+			timerAbort = setTimeout(() => {
+			  reject();
+			}, timeout);
+		      }
 
-			const success = () => (req.status < 400 && req.readyState === 4) ?
-				resolve(result(req)) : reject(result(req));
+			 const success = () => {
+			if (timeout) clearTimeout(timerAbort);
+
+			req.status < 400 && req.readyState === 4
+			  ? resolve(result(req))
+			  : reject(result(req));
+		      };
 
 			const error = () => (reject(result(req)));
 
